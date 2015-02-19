@@ -1,0 +1,26 @@
+solr core configuration
+solr installed directory 
+		/opt/solr/solr-4.10.3
+solr core directory
+		/opt/solr/solr-4.10.3/example/solr
+
+
+copy the core folder "collection1" on the same folder and name it as "arduino_core"
+delete core.properties on arduino_core/
+delete all files inside arduino_core/data/ directory
+In arduino_core/conf directory edit schema.xml and add this lines to field list
+
+  <field name="Tags" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="PostId" type="long" indexed="true" stored="true"/>
+  <field name="AnswerCount" type="long" indexed="true" stored="true"/>
+  <field name="ViewCount" type="long" indexed="true" stored="true"/>
+  <field name="Score" type="long" indexed="true" stored="true"/>
+  <field name="LastActivityDate" type="date" indexed="true" stored="true"/>
+  <field name="Body" type="text_general"  stored="true"/>
+  <field name="Title" type="string"  stored="true"/>
+
+now go to http://localhost:8983/solr/#/
+select Core Admin and click on "Add Core" button.
+on name and instance_dir field type "arduino_core" and click add core button on that dialog.
+
+now run the SolrjPopulator java class to populate data to solr index and use SolrjSearcher to query it.
