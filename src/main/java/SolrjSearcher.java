@@ -14,12 +14,11 @@ public class SolrjSearcher {
         HttpSolrServer solr = new HttpSolrServer("http://localhost:8983/solr/arduino_core/");
         SolrQuery query = new SolrQuery();
         query.set("defType", "dismax"); //setting dismax query parser
-        query.set("q.alt", "(Title:*"+QUERY+"*)^10  (Tags:*"+QUERY+"*)"); //setting parameter to search on title and Tags and give more boost to title wise results
-        query.set("bf","linear(Score,2,1) linear(AnswerCount,1.5,1)"); //boost doc rank  by score*2 and AnswerCount by 1.5
-        //query.set("qf", "Title^2 Tags"); //setting querying fields
+        query.set("q.alt", "(Title:*"+QUERY+"*)^10  (Tags:*"+QUERY+"*)");
+        query.set("bf","linear(Score,2,1) linear(AnswerCount,1.5,1)");
 
         query.setFields("Title", "AnswerCount", "Score", "ViewCount");
-        //System.out.println(query.toString());
+
         QueryResponse response = solr.query(query);
 
         SolrDocumentList results = response.getResults();

@@ -39,25 +39,28 @@ public class JacksonJasonLoader {
                 if (fieldName.equals("Reviews")) {
                     if (current == JsonToken.START_ARRAY) {
                         while (jp.nextToken() != JsonToken.END_ARRAY) {
-                            JsonNode review = jp.readValueAsTree();
-                            SolrInputDocument reviewDoc = new SolrInputDocument();
-                            JsonNode ratings = review.get("Ratings");
-                            Iterator<String> ratingIterator = ratings.getFieldNames();
+                            try {
+                                JsonNode review = jp.readValueAsTree();
+                                SolrInputDocument reviewDoc = new SolrInputDocument();
+                                JsonNode ratings = review.get("Ratings");
+                                Iterator<String> ratingIterator = ratings.getFieldNames();
 
-                            reviewDoc.addField("id", MurmurHash.hash64(review.get("ReviewID").asText()));
-                            reviewDoc.addField("HotelId", hotelId);
-                            reviewDoc.addField("AuthorName",review.get("Author").asText());
-                            reviewDoc.addField("AuthorLocation",review.get("AuthorLocation").asText());
-                            reviewDoc.addField("ReviewId",review.get("ReviewID").asText());
-                            reviewDoc.addField("ReviewContent",review.get("Content").asText());
-                            reviewDoc.addField("ReviewTitle",review.get("Title").asText());
+                                reviewDoc.addField("id", MurmurHash.hash64(review.get("ReviewID").asText()));
+                                reviewDoc.addField("HotelId", hotelId);
+                                reviewDoc.addField("AuthorName", review.get("Author").asText());
+                                reviewDoc.addField("AuthorLocation", review.get("AuthorLocation").asText());
+                                reviewDoc.addField("ReviewId", review.get("ReviewID").asText());
+                                reviewDoc.addField("ReviewContent", review.get("Content").asText());
+                                reviewDoc.addField("ReviewTitle", review.get("Title").asText());
 
-                            while (ratingIterator.hasNext()) {
-                                String ratingName = ratingIterator.next();
-                                reviewDoc.addField(ratingName,Double.parseDouble(ratings.get(ratingName).asText()));
+                                while (ratingIterator.hasNext()) {
+                                    String ratingName = ratingIterator.next();
+                                    reviewDoc.addField(ratingName, Double.parseDouble(ratings.get(ratingName).asText()));
+                                }
+
+                                REVIEW_CONNECTOR.add(reviewDoc);
+                            }catch (Exception e){
                             }
-
-                            REVIEW_CONNECTOR.add(reviewDoc);
                         }
                         REVIEW_CONNECTOR.commit();
                     } else {
@@ -65,6 +68,9 @@ public class JacksonJasonLoader {
                         jp.skipChildren();
                     }
                 } else if (fieldName.equals("HotelInfo")) {
+                    try {
+                        
+
                     JsonNode hotelInfo = jp.readValueAsTree();
                     SolrInputDocument hotelDoc = new SolrInputDocument();
                     hotelDoc.addField("HotelName",hotelInfo.get("Name").asText());
@@ -90,7 +96,7 @@ public class JacksonJasonLoader {
                     hotelDoc.addField("Price",price);
                     HOTEL_CONNECTOR.add(hotelDoc);
                     HOTEL_CONNECTOR.commit();
-                    
+                    }catch (Exception e){}
                 }else{
                     System.out.println("Unprocessed property: " + fieldName);
                     jp.skipChildren();
