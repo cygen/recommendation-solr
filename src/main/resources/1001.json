@@ -1,0 +1,29 @@
+{
+  "Reviews": [
+    {
+      "Ratings": {
+        "Service": "4",
+        "Cleanliness": "5",
+        "Overall": "5.0",
+        "Value": "4",
+        "Sleep Quality": "4",
+        "Rooms": "5",
+        "Location": "5"
+      },
+      "AuthorLocation": "Boston",
+      "Title": "\u201cExcellent Hotel & Location\u201d",
+      "Author": "gowharr32",
+      "ReviewID": "UR126946257",
+      "Content": "We enjoyed the Best Western Pioneer Square. My husband and I had a room with a king bed and it was clean, quiet, and attractive. Our sons were in a room with twin beds. Their room was in the corner on the main street and they said it was a little noisier and the neon light shone in. But later hotels on the trip made them appreciate this one more. We loved the old wood center staircase. Breakfast was included and everyone was happy with waffles, toast, cereal, and an egg meal. Location was great. We could walk to shops and restaurants as well as transportation. Pike Market was a reasonable walk. We enjoyed the nearby Gold Rush Museum. Very, very happy with our stay. Staff was helpful and knowledgeable.",
+      "Date": "March 29, 2012"
+    }
+  ],
+  "HotelInfo": {
+    "Name": "BEST WESTERN PLUS Pioneer Square Hotel",
+    "HotelURL": "/ShowUserReviews-g60878-d72572-Reviews-BEST_WESTERN_PLUS_Pioneer_Square_Hotel-Seattle_Washington.html",
+    "Price": "$117 - $189*",
+    "Address": "<address class=\"addressReset\"> <span rel=\"v:address\"> <span dir=\"ltr\"><span class=\"street-address\" property=\"v:street-address\">77 Yesler Way</span>, <span class=\"locality\"><span property=\"v:locality\">Seattle</span>, <span property=\"v:region\">WA</span> <span property=\"v:postal-code\">98104-2530</span></span> </span> </span> </address>",
+    "HotelID": "72572",
+    "ImgURL": "http://media-cdn.tripadvisor.com/media/ProviderThumbnails/dirs/51/f5/51f5d5761c9d693626e59f8178be15442large.jpg"
+  }
+}
