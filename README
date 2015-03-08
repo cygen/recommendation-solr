@@ -23,4 +23,4 @@ now go to http://localhost:8983/solr/#/
 select Core Admin and click on "Add Core" button.
 on name and instance_dir field type "arduino_core" and click add core button on that dialog.
 
-now run the SolrjPopulator java class to populate data to solr index and use SolrjSearcher to query it.
+now run the stackoverflow.SolrjPopulator java class to populate data to solr index and use stackoverflow.SolrjSearcher to query it.
