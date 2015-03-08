@@ -26,7 +26,7 @@ public class Review {
             this.content =entry.get("ReviewContent")!=null?(String) entry.get("ReviewContent"):"";
             this.title =entry.get("ReviewTitle")!=null?(String) entry.get("ReviewTitle"):"";
             this.author =entry.get("AuthorName")!=null?(String) entry.get("AuthorName"):"Anonymous";
-            this.author =entry.get("ReviewId")!=null?(String) entry.get("ReviewId"):"";
+            this.reviewId =entry.get("ReviewId")!=null?(String) entry.get("ReviewId"):"";
             this.hotelId =entry.get("HotelId")!=null?(Long) entry.get("HotelId"):0l;
             //Ratings
             this.overall =entry.get("Overall")!=null?(Double) entry.get("Overall"):0d;
@@ -42,14 +42,15 @@ public class Review {
         jsonObject.addProperty("hotelId", hotelId);
         jsonObject.addProperty("author", author);
         jsonObject.addProperty("content", content);
-        jsonObject.addProperty("date", date);
-        jsonObject.addProperty("service", service);
-        jsonObject.addProperty("cleanliness", cleanliness);
+        
         jsonObject.addProperty("overall", overall);
-        jsonObject.addProperty("value", value);
-        jsonObject.addProperty("sleepQuality", sleepQuality);
-        jsonObject.addProperty("rooms", rooms);
-        jsonObject.addProperty("location", location);
+//        jsonObject.addProperty("date", date);
+//        jsonObject.addProperty("service", service);
+//        jsonObject.addProperty("cleanliness", cleanliness);
+//        jsonObject.addProperty("value", value);
+//        jsonObject.addProperty("sleepQuality", sleepQuality);
+//        jsonObject.addProperty("rooms", rooms);
+//        jsonObject.addProperty("location", location);
         return jsonObject;
     }
 }
