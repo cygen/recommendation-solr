@@ -10,8 +10,7 @@ import util.MurmurHash;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.UUID;
-import java.util.regex.Pattern;
+
 
 /**
  * Created by vishnu on 6/3/15.
@@ -19,7 +18,18 @@ import java.util.regex.Pattern;
 public class JacksonJasonLoader {
     static HttpSolrServer HOTEL_CONNECTOR = new HttpSolrServer("http://localhost:8983/solr/recHotel");
     static HttpSolrServer REVIEW_CONNECTOR = new HttpSolrServer("http://localhost:8983/solr/recReview");
-    static Pattern numberPattern = Pattern.compile("[0-9]+");
+
+    public static void commitDocuments() {
+        try {
+            HOTEL_CONNECTOR.commit();
+            REVIEW_CONNECTOR.commit();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void readFromFile(String filePath) {
         try {
             JsonFactory f = new MappingJsonFactory();
@@ -59,45 +69,45 @@ public class JacksonJasonLoader {
                                 }
 
                                 REVIEW_CONNECTOR.add(reviewDoc);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                             }
                         }
-                        REVIEW_CONNECTOR.commit();
+
                     } else {
                         System.out.println("Error: records should be an array: skipping.");
                         jp.skipChildren();
                     }
                 } else if (fieldName.equals("HotelInfo")) {
                     try {
-                        
 
-                    JsonNode hotelInfo = jp.readValueAsTree();
-                    SolrInputDocument hotelDoc = new SolrInputDocument();
-                    hotelDoc.addField("HotelName",hotelInfo.get("Name").asText());
-                    hotelDoc.addField("HotelId",hotelId);
-                    hotelDoc.addField("id",hotelId);
-                    hotelDoc.addField("HotelUrl",hotelInfo.get("HotelURL").asText());
-                    hotelDoc.addField("HotelAddress",hotelInfo.get("Address").asText());
-                    hotelDoc.addField("HotelImgUrl",hotelInfo.get("ImgURL").asText());
-                    
-                    String price = hotelInfo.get("Price").asText();
-                    String[] pricelist = price.split("-");
 
-                    if(pricelist.length==2){
-                        pricelist[0] = pricelist[0].replaceAll("[^-?0-9]+", "");
-                        pricelist[1] = pricelist[1].replaceAll("[^-?0-9]+", "");
-                        long minPrice=Long.parseLong(pricelist[0]);
-                        long maxPrice=Long.parseLong(pricelist[1]);
-                        System.out.println("Price fot hotel "+hotelId+" is "+price+" min:"+minPrice+" max:"+maxPrice);
-                        hotelDoc.addField("HotelMinPrice",minPrice);
-                        hotelDoc.addField("HotelMaxPrice",maxPrice);
+                        JsonNode hotelInfo = jp.readValueAsTree();
+                        SolrInputDocument hotelDoc = new SolrInputDocument();
+                        hotelDoc.addField("HotelName", hotelInfo.get("Name").asText());
+                        hotelDoc.addField("HotelId", hotelId);
+                        hotelDoc.addField("id", hotelId);
+                        hotelDoc.addField("HotelUrl", hotelInfo.get("HotelURL").asText());
+                        hotelDoc.addField("HotelAddress", hotelInfo.get("Address").asText());
+                        hotelDoc.addField("HotelImgUrl", hotelInfo.get("ImgURL").asText());
+
+                        String price = hotelInfo.get("Price").asText();
+                        String[] pricelist = price.split("-");
+
+                        if (pricelist.length == 2) {
+                            pricelist[0] = pricelist[0].replaceAll("[^-?0-9]+", "");
+                            pricelist[1] = pricelist[1].replaceAll("[^-?0-9]+", "");
+                            long minPrice = Long.parseLong(pricelist[0]);
+                            long maxPrice = Long.parseLong(pricelist[1]);
+                            System.out.println("Price fot hotel " + hotelId + " is " + price + " min:" + minPrice + " max:" + maxPrice);
+                            hotelDoc.addField("HotelMinPrice", minPrice);
+                            hotelDoc.addField("HotelMaxPrice", maxPrice);
+                        }
+
+                        hotelDoc.addField("Price", price);
+                        HOTEL_CONNECTOR.add(hotelDoc);
+                    } catch (Exception e) {
                     }
-                    
-                    hotelDoc.addField("Price",price);
-                    HOTEL_CONNECTOR.add(hotelDoc);
-                    HOTEL_CONNECTOR.commit();
-                    }catch (Exception e){}
-                }else{
+                } else {
                     System.out.println("Unprocessed property: " + fieldName);
                     jp.skipChildren();
                 }
@@ -107,8 +117,6 @@ public class JacksonJasonLoader {
         } catch (JsonParseException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SolrServerException e) {
             e.printStackTrace();
         }
 

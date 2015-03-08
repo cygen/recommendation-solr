@@ -12,10 +12,11 @@ import java.util.List;
  * Created by vishnu on 7/3/15.
  */
 public class BaseController {
-    public void testing(Request request, Response response){
+    public void testing(Request request, Response response) {
         response.setBody("testing");
     }
-    public void getSuggestions(Request request, Response response){
+
+    public void getSuggestions(Request request, Response response) {
 
         JsonObject jsonObject = new JsonObject();
         String username = request.getQueryStringMap().get("username");
@@ -31,11 +32,11 @@ public class BaseController {
                 }
                 jsonObject.add("hotels", hotelsArray);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        jsonObject.addProperty("username",username);
-        jsonObject.addProperty("query",query);
+        jsonObject.addProperty("username", username);
+        jsonObject.addProperty("query", query);
         response.setContentType("application/json");
         response.setBody(jsonObject);
     }

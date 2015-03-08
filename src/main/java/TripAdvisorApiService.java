@@ -14,6 +14,7 @@ public class TripAdvisorApiService {
     private static final int DEFAULT_EXECUTOR_THREAD_POOL_SIZE = 2;
     private static final int SERVER_PORT = 9009;
     private static final Logger LOG = LoggerFactory.getLogger(TripAdvisorApiService.class);
+
     public static void main(String[] args) {
         RestExpress server = null;
         try {
