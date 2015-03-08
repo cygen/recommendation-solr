@@ -5,6 +5,9 @@ import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.*;
 import org.codehaus.jackson.map.MappingJsonFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 import util.MurmurHash;
 
 import java.io.File;
@@ -16,6 +19,7 @@ import java.util.Iterator;
  * Created by vishnu on 6/3/15.
  */
 public class JacksonJasonLoader {
+    private static final Logger LOG = LoggerFactory.getLogger(JacksonJasonLoader.class);
     static HttpSolrServer HOTEL_CONNECTOR = new HttpSolrServer("http://localhost:8983/solr/recHotel");
     static HttpSolrServer REVIEW_CONNECTOR = new HttpSolrServer("http://localhost:8983/solr/recReview");
 
@@ -23,17 +27,22 @@ public class JacksonJasonLoader {
         try {
             HOTEL_CONNECTOR.commit();
             REVIEW_CONNECTOR.commit();
+            LOG.info("Commiting Cores to Solr Sucessfull");
+            return;
         } catch (SolrServerException e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         }
+        LOG.info("Error While Committing");
     }
 
-    public static void readFromFile(String filePath) {
+    public static void readFromFile(File jsonFile) {
+        long reviewRead=0l;
+        long reviewErrors=0l;
+        boolean hotelReadFlag = false;
         try {
             JsonFactory f = new MappingJsonFactory();
-            File jsonFile = new File(filePath);
             Long hotelId = Long.parseLong(jsonFile.getName().replaceFirst("[.][^.]+$", ""));
             JsonParser jp = f.createJsonParser(jsonFile);
             JsonToken current;
@@ -69,7 +78,10 @@ public class JacksonJasonLoader {
                                 }
 
                                 REVIEW_CONNECTOR.add(reviewDoc);
+                                reviewRead=+reviewRead+1;
                             } catch (Exception e) {
+                                LOG.debug(e.getMessage());
+                                reviewErrors=reviewErrors+1l;
                             }
                         }
 
@@ -104,20 +116,21 @@ public class JacksonJasonLoader {
 
                         hotelDoc.addField("Price", price);
                         HOTEL_CONNECTOR.add(hotelDoc);
+                        hotelReadFlag=true;
                     } catch (Exception e) {
+                        LOG.debug(e.getMessage());
                     }
                 } else {
-                    System.out.println("Unprocessed property: " + fieldName);
+                    LOG.debug("Unprocessed property: " + fieldName);
                     jp.skipChildren();
                 }
             }
-
-
         } catch (JsonParseException e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         }
-
+        
+        LOG.info("Processed File "+jsonFile.getName()+" Hotel parsing successful: "+hotelReadFlag+" reviews ( read: "+reviewRead+" , error: "+reviewErrors+" )");
     }
 }

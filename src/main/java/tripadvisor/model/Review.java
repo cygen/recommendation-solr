@@ -2,11 +2,15 @@ package tripadvisor.model;
 
 import com.google.gson.JsonObject;
 import org.apache.solr.common.SolrDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by vishnu on 7/3/15.
  */
 public class Review {
+    private static final Logger LOG = LoggerFactory.getLogger(Review.class);
+
     String title = "";
     String reviewId = "";
     long hotelId = 0l;
@@ -35,7 +39,7 @@ public class Review {
             this.overall = entry.get("Overall") != null ? (Double) entry.get("Overall") : 0d;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         }
     }
 

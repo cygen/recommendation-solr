@@ -19,9 +19,11 @@ public class TripAdvisorApiService {
 
     public static void main(String[] args) {
         System.out.println("Initializing rest api Service");
+        
         RestExpress server = null;
         try {
             server = initializeServer(args);
+            System.out.println("Service is running on http://localhost:"+SERVER_PORT);
             server.awaitShutdown();
         } catch (IOException e) {
             LOG.info(e.getMessage());

@@ -2,6 +2,8 @@ package tripadvisor.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tripadvisor.model.Hotel;
 import org.restexpress.Request;
 import org.restexpress.Response;
@@ -12,6 +14,8 @@ import java.util.List;
  * Created by vishnu on 7/3/15.
  */
 public class BaseController {
+    private static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
+
     public void index(Request request, Response response) {
         String content="Trip Advisor Recommendation Service \n"
                 +"Usage \n\n"
@@ -40,7 +44,7 @@ public class BaseController {
                 jsonObject.add("hotels", hotelsArray);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         }
         jsonObject.addProperty("username", username);
         jsonObject.addProperty("query", query);

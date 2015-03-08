@@ -5,6 +5,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -12,6 +14,8 @@ import java.util.*;
  * Created by vishnu on 6/3/15.
  */
 public class ReviewService {
+    private static final Logger LOG = LoggerFactory.getLogger(ReviewService.class);
+    
     static HttpSolrServer REVIEW_CONNECTOR = new HttpSolrServer("http://localhost:8983/solr/recReview");
 
     public static HashMap<Long, Double> getRatingsAndHotelFor(String userName) {
@@ -27,6 +31,7 @@ public class ReviewService {
                 resultsToReturn.put((Long) results.get(i).get("HotelId"), (Double) results.get(i).get("Overall"));
             }
         } catch (Exception e) {
+            LOG.debug(e.getMessage());
         }
         return resultsToReturn;
     }
@@ -44,7 +49,7 @@ public class ReviewService {
                 resultsToReturn.add((String) results.get(i).get("AuthorName"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         }
         return resultsToReturn;
     }
@@ -64,7 +69,7 @@ public class ReviewService {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.debug(e.getMessage());
             }
         }
     }
@@ -82,6 +87,7 @@ public class ReviewService {
                 sortedMap.put((String) entry.getValue(), (Integer) entry.getKey());
             }
         } catch (Exception e) {
+            LOG.debug(e.getMessage());
         }
 
 

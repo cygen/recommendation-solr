@@ -2,6 +2,8 @@ package tripadvisor.model;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tripadvisor.io.HotelService;
 import tripadvisor.io.ReviewService;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -17,6 +19,7 @@ import java.util.*;
  * Created by vishnu on 7/3/15.
  */
 public class Hotel {
+    private static final Logger LOG = LoggerFactory.getLogger(Hotel.class);
     static HttpSolrServer REVIEW_CONNECTOR = new HttpSolrServer("http://localhost:8983/solr/recReview");
     String name = "";
     String website = "";
@@ -81,7 +84,7 @@ public class Hotel {
                 }
             }
         } catch (SolrServerException e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         }
     }
 
@@ -101,7 +104,7 @@ public class Hotel {
                 hotels.add(HotelService.getHotel(String.valueOf(id)));
             }
         } catch (SolrServerException e) {
-            e.printStackTrace();
+            LOG.debug(e.getMessage());
         }
         return hotels;
     }
