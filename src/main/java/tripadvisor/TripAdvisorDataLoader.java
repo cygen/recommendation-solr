@@ -10,7 +10,15 @@ import java.io.File;
 public class TripAdvisorDataLoader {
     public static void main(String[] args) {
         System.out.println("Starting Application");
-        String folderPath = "/home/vishnu/Documents/json";
+        String folderPath = "src/main/resources/sampledata/tripadvisor";
+        if (args[0]!=null){
+            if(!"".equals(args[0])){
+                folderPath=args[0];
+            }
+        }
+        
+        System.out.println("Reading data from path "+folderPath);
+        
         File folder = new File(folderPath);
 
         File[] listOfFiles = folder.listFiles();

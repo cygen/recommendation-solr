@@ -98,7 +98,6 @@ public class JacksonJasonLoader {
                             pricelist[1] = pricelist[1].replaceAll("[^-?0-9]+", "");
                             long minPrice = Long.parseLong(pricelist[0]);
                             long maxPrice = Long.parseLong(pricelist[1]);
-                            System.out.println("Price fot hotel " + hotelId + " is " + price + " min:" + minPrice + " max:" + maxPrice);
                             hotelDoc.addField("HotelMinPrice", minPrice);
                             hotelDoc.addField("HotelMaxPrice", maxPrice);
                         }
