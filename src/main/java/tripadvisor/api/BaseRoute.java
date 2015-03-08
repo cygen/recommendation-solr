@@ -8,7 +8,8 @@ import org.restexpress.RestExpress;
  */
 public class BaseRoute {
     public static void define(RestExpress server) {
-        server.uri("/test", new BaseController()).action("testing", HttpMethod.GET).noSerialization();
+        //Routes for the Api Service
         server.uri("/suggestion/get", new BaseController()).action("getSuggestions", HttpMethod.GET).noSerialization();
+        server.uri("/", new BaseController()).action("index", HttpMethod.GET).noSerialization();
     }
 }

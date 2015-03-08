@@ -12,8 +12,15 @@ import java.util.List;
  * Created by vishnu on 7/3/15.
  */
 public class BaseController {
-    public void testing(Request request, Response response) {
-        response.setBody("testing");
+    public void index(Request request, Response response) {
+        String content="Trip Advisor Recommendation Service \n"
+                +"Usage \n\n"
+                +"http://localhost:9009/suggestion/get \n"
+                +"http://localhost:9009/suggestion/get?query=Seattle&username=JJTrouble \n"
+                +"http://localhost:9009/suggestion/get?query=Seattle&username= \n"
+                +"http://localhost:9009/suggestion/get?query=Seattle \n";
+        response.setContentType("text/plain");
+        response.setBody(content);
     }
 
     public void getSuggestions(Request request, Response response) {

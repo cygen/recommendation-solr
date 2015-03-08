@@ -12,12 +12,13 @@ import java.io.IOException;
  * Created by vishnu on 7/3/15.
  */
 public class TripAdvisorApiService {
-    private static final String SERVICE_NAME = "Admin Service";
+    private static final String SERVICE_NAME = "TripAdvisor Recommendation Service";
     private static final int DEFAULT_EXECUTOR_THREAD_POOL_SIZE = 2;
     private static final int SERVER_PORT = 9009;
     private static final Logger LOG = LoggerFactory.getLogger(TripAdvisorApiService.class);
 
     public static void main(String[] args) {
+        System.out.println("Initializing rest api Service");
         RestExpress server = null;
         try {
             server = initializeServer(args);
